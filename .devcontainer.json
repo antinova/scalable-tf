@@ -1,0 +1,22 @@
+{
+	"name": "Existing Dockerfile",
+	"build": {
+		"args": {
+			"UID": "1000"
+		},
+		"dockerfile": "./Dockerfile"
+	},
+	"mounts": [{
+		"source": "${localEnv:HOME}/.aws",
+		"target": "/home/infra/.aws",
+		"type": "bind"
+	}],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"hashicorp.terraform",
+				"hashicorp.hcl"
+			]
+		}
+	}
+}
