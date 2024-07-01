@@ -15,8 +15,10 @@ Let's assume we have an S3 bucket per region containing our Terraform states. Wi
 
 ```
 mercury-terraform-us-east-2/
-  services/crm/prod/us-east-2/*tf.tfstate
-  services/fraud-detection/dev/us-east-2/*tf.tfstate
+  services/crm/prod/us-east-2/network/tf.tfstate
+  services/crm/prod/us-east-2/ecs/tf.tfstate
+  services/fraud-detection/dev/us-east-2/cloudwatch/tf.tfstate
+  services/fraud-detection/dev/us-east-2/opensearch/tf.tfstate
 ```
 
 Then, we define an IAM policy for the role that limits access to a set of files, e.g.
@@ -31,12 +33,7 @@ Then, we define an IAM policy for the role that limits access to a set of files,
                 "s3:GetObject",
                 "s3:PutObject"
             ],
-            "Resource": [
-              "arn:aws:s3:::jesper-tf-state/services/crm/prod/us-east-2/network/tf.tfstate",
-              "arn:aws:s3:::jesper-tf-state/services/crm/prod/us-east-2/ecs/tf.tfstate",
-              "arn:aws:s3:::jesper-tf-state/services/crm/prod/us-east-2/cloudwatch/tf.tfstate" 
-              "arn:aws:s3:::jesper-tf-state/services/crm/prod/us-east-2/opensearch/tf.tfstate"
-            ]
+            "Resource": ["arn:aws:s3:::jesper-tf-state/services/crm/prod/us-east-2/*tf.tfstate"]
         }
     ]
 }
@@ -48,7 +45,7 @@ Ideally, there's a centralized service to deploy all of our Terraform code (e.g.
 
 ### External threats
 
-When addressing security, it's easy to spend too much time in the defender mindset. As a defender, you have to get things right every time, while the attacker only needs to get one thing right. Because of this, it's often more helpful to imagine yourself as an attacker.
+When addressing security, it's easy to spend too much time in the defender mindset. As a defender, you have to get all things right, while the attacker only needs to get one thing right. Because of this, it's often more helpful to imagine yourself as an attacker.
 
 Let's assume we have remote code execution in a container running in Kubernetes. How can we leverage this access, pivot/gain access to other resources on the network? More importantly, which infra-level safety measures can we implement so that even if one of our product teams makes a misconfiguration, attacks will be rendered ineffective?
 
