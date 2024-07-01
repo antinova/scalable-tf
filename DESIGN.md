@@ -1,6 +1,6 @@
 # Design
 
-This document document explains the rationale behind the architectural decisions of this Terraform monorepo, which serves as the foundation for our organization.
+This document explains the rationale behind the architectural decisions of this Terraform monorepo, which serves as the foundation for our organization.
 
 ## Prelude: Terraform scalability issues
 
